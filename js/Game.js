@@ -9,7 +9,9 @@
    }
 
    startGame() {
-
+     document.getElementById('overlay').style.display = 'none';
+     this.activePhrase = new Phrase(this.getRandomPhrase());
+     this.activePhrase.addPhraseToDisplay();
    }
 
    createPhrases() {
@@ -25,18 +27,52 @@
    }
 
    handleInteraction() {
-     console.log('hello');
+     // console.log('hello');
    }
 
    removeLife() {
-
+     const li = document.createElement('li');
+     const img = document.createElement('img');
+     li.className = 'tries';
+     this.setAttributes(img, {'src': 'images/lostHeart.png', 'alt': 'Heart Icon',
+                         'height': '35', 'width' :'30'})
+     li.appendChild(img);
+     document.querySelector('ol')
+       .removeChild(document.querySelector('ol').lastElementChild);
+     document.querySelector('ol')
+       .insertBefore(li, document.querySelector('ol').childNodes[0]);
+     this.missed += 1;
+     if (this.missed === 5) {
+       this.gameOver(false);
+     }
    }
 
    checkForWin() {
-
+     if (document.querySelectorAll('.letter').length
+         === document.querySelectorAll('.show').length) {
+       return true;
+     } else {
+       return false;
+     }
    }
 
-   gameOver() {
+   gameOver(bool) {
+     document.getElementById('overlay').removeAttribute('style');
+     if (bool === false) {
+       document.getElementById('overlay').className = 'lose';
+       document.getElementById('game-over-message').textContent =
+         'Oops! you ran out of lives. Better luck next time';
+     } else {
+       document.getElementById('overlay').className = 'win';
+       document.getElementById('game-over-message').textContent =
+         'You WON!!!';
+     }
+   }
 
+   // Helpers //
+   setAttributes(element, attributes) {
+     for (let key in attributes) {
+       element.setAttribute(key, attributes[key]);
+     }
    }
  }

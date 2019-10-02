@@ -2,7 +2,7 @@
  * Project 4 - OOP Game App
  * app.js */
 const game = new Game();
-const phrase = new Phrase("HELLO THERE");
+// const phrase = new Phrase();
 const keys = document.querySelectorAll('.key');
 
 document.getElementById('btn__reset').addEventListener('click', () => {
@@ -10,6 +10,3 @@ document.getElementById('btn__reset').addEventListener('click', () => {
 });
 
 keys.forEach(key => key.addEventListener('click', () => game.handleInteraction()));
-
-console.log(phrase)
-console.log(game.phrases);
