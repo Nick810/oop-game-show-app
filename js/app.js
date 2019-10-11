@@ -3,22 +3,22 @@
  * app.js */
 const game = new Game();
 const keys = document.querySelectorAll('.key');
+let gameStart = false;
 
-function addPhysicalKeyboardListener(event) {
-  keys.forEach(key => {
-    if (key.textContent === event.key) {
-      if (key.classList.contains('wrong')) {
-        return false;
-      }
-      return game.handleInteraction(key);
+function enterOrSpaceToStart(event) {
+  if (event.code === 'Enter' || event.code === 'Space') {
+    if (!gameStart) {
+      gameStart = !gameStart;
+      return game.startGame();
     }
-  });
+  }
 }
 
 
 document.getElementById('btn__reset').addEventListener('click', () => {
   game.startGame();
-  window.addEventListener('keyup', addPhysicalKeyboardListener, false);
 }, false);
+
+window.addEventListener('keyup', enterOrSpaceToStart, false);
 
 keys.forEach(key => key.addEventListener('click', (e) => game.handleInteraction(e.target)), false);

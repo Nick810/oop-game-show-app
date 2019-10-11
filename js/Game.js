@@ -9,6 +9,7 @@
    }
 
    startGame() {
+     window.addEventListener('keyup', this.addPhysicalKeyboardListener, false);
      document.getElementById('overlay').style.display = 'none';
      this.activePhrase = new Phrase(this.getRandomPhrase());
      this.activePhrase.addPhraseToDisplay();
@@ -68,18 +69,20 @@
    gameOver(bool) {
      document.getElementById('overlay').removeAttribute('style');
      if (bool === false) {
+       gameStart = !gameStart;
        document.getElementById('overlay').className = 'lose';
        document.getElementById('game-over-message').textContent =
          'Oops! you ran out of lives. Better luck next time';
        document.getElementById('btn__reset').textContent = 'Try Again';
-       window.removeEventListener('keyup', addPhysicalKeyboardListener, false);
+       window.removeEventListener('keyup', this.addPhysicalKeyboardListener, false);
        return game.restartGame();
      } else {
+       gameStart = !gameStart;
        document.getElementById('overlay').className = 'win';
        document.getElementById('game-over-message').textContent =
          'You WON!!!';
        document.getElementById('btn__reset').textContent = 'Play Again';
-       window.removeEventListener('keyup', addPhysicalKeyboardListener, false);
+       window.removeEventListener('keyup', this.addPhysicalKeyboardListener, false);
        return game.restartGame();
      }
    }
@@ -115,4 +118,15 @@
      }
    }
 
+   addPhysicalKeyboardListener(event) {
+     keys.forEach(key => {
+       if (key.textContent === event.key) {
+         if (key.classList.contains('wrong')) {
+           return false;
+         }
+         return game.handleInteraction(key);
+       }
+     });
+   }
+   
  }
